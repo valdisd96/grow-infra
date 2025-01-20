@@ -6,3 +6,5 @@ htpasswd -c docker/nginx/.htpasswd user
 
 cp docker/.env.tmpl docker/.env 
 docker-compose --env-file .env up -d
+
+cp grafana/grafana.ini.tmpl grafana/grafana.ini
