@@ -13,6 +13,7 @@ services:
       - ./prometheus/data:/prometheus
     networks:
       - monitoring
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:latest
@@ -49,6 +50,7 @@ services:
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
     networks:
       - monitoring
+    restart: unless-stopped
 
 volumes:
   prometheus_data:
