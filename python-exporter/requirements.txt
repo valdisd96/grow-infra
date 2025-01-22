@@ -1,4 +1,0 @@
-prometheus_client
-adafruit-circuitpython-dht
-adafruit-blinka
-requests
