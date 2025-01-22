@@ -5,3 +5,8 @@ env/
 grafana.ini
 docker/grafana/data/
 docker/prometheus/data/
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+venv/
