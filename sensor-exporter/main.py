@@ -4,7 +4,7 @@ import board
 import settings
 from prometheus_client import start_http_server
 from relay import Relay
-from temperature_sensor import TemperatureSensor
+from temperature_sensor import TemperatureSensorDHT22
 from metrics_exporter import MetricsExporter
 
 logging.basicConfig(level=logging.INFO)
@@ -17,8 +17,8 @@ if __name__ == "__main__":
     sensor2_pin = getattr(board, f"D{settings.TEMPERATURE_SENSOR_2_PIN}")
 
     relay = Relay("FanRelay", relay_pin)
-    sensor1 = TemperatureSensor("Sensor1", sensor1_pin, metrics_exporter)
-    sensor2 = TemperatureSensor("Sensor2", sensor2_pin, metrics_exporter)
+    sensor1 = TemperatureSensorDHT22("Sensor1", sensor1_pin, metrics_exporter)
+    sensor2 = TemperatureSensorDHT22("Sensor2", sensor2_pin, metrics_exporter)
 
     start_http_server(8000)
     try:
