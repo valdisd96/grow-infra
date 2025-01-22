@@ -25,7 +25,7 @@ if __name__ == "__main__":
         while True:
             sensor1.read()
             sensor2.read()
-            time.sleep(10)
+            time.sleep(30)
     except KeyboardInterrupt:
         logging.info("Shutting down gracefully.")
     finally:
