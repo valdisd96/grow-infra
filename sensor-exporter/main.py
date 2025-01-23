@@ -2,12 +2,23 @@ import logging
 import time
 import board
 import settings
+import signal
 from prometheus_client import start_http_server
 from relay import Relay
 from temperature_sensor import TemperatureSensorDHT22
 from metrics_exporter import MetricsExporter
 
 logging.basicConfig(level=logging.INFO)
+
+def signal_handler(sig, frame):
+    logger.info("Signal received: %s", sig)
+    relay.cleanup()
+    sensor1.cleanup()
+    sensor2.cleanup()
+    sys.exit(0)
+
+signal.signal(signal.SIGTERM, signal_handler)
+signal.signal(signal.SIGINT, signal_handler)
 
 if __name__ == "__main__":
     metrics_exporter = MetricsExporter()
