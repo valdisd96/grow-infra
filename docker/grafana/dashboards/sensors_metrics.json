@@ -468,8 +468,7 @@
         "label": "Datasource",
         "hide": 0,
         "datasource": {
-          "type": "prometheus",
-          "uid": "Prometheus"  
+          "type": "prometheus"
         },
         "default": "Prometheus",
         "options": [
