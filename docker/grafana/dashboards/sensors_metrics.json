@@ -4,8 +4,8 @@
       {
         "builtIn": 1,
         "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
         "enable": true,
         "hide": true,
@@ -470,7 +470,7 @@
         "datasource": {
           "type": "prometheus"
         },
-        "default": "PBFA97CFB590B2093",
+        "default": "Prometheus",
         "options": [
           {
             "text": "Prometheus",
