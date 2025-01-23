@@ -4,8 +4,8 @@
       {
         "builtIn": 1,
         "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
         "enable": true,
         "hide": true,
@@ -19,6 +19,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 2,
+  "refresh": "30s",
   "links": [],
   "panels": [
     {
@@ -461,7 +462,25 @@
   "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "label": "Datasource",
+        "hide": 0,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "default": "PBFA97CFB590B2093",
+        "options": [
+          {
+            "text": "Prometheus",
+            "value": "Prometheus",
+            "selected": true
+          }
+        ]
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
