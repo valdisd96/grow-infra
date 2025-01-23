@@ -11,4 +11,4 @@ scrape_configs:
       - targets: ['node_exporter:9100']
 
 rule_files:
-  - "rules/additional_sensor_parameters.yml"
+  - "/etc/prometheus/additional_sensor_parameters.yml"
