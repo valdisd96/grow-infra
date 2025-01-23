@@ -19,6 +19,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 2,
+  "refresh": "30s",
   "links": [],
   "panels": [
     {
