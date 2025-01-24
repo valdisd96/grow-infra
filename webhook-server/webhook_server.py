@@ -1,5 +1,7 @@
 import logging
 import subprocess
+import settings
+from relay import Relay
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -7,7 +9,13 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("WebhookServer")
 
-FAN_CONTROL_SCRIPT = "scripts/fan_control.sh"
+def signal_handler(sig, frame):
+    logger.info("Signal received: %s", sig)
+    funRelay.cleanup()
+    sys.exit(0)
+
+signal.signal(signal.SIGTERM, signal_handler)
+signal.signal(signal.SIGINT, signal_handler)
 
 @app.route('/fan-control', methods=['POST'])
 def fan_control():
@@ -19,10 +27,10 @@ def fan_control():
             state = alert["labels"].get("state")
             if state == "on":
                 logger.info("Turning fan ON")
-                subprocess.run([FAN_CONTROL_SCRIPT, "on"], check=True)
+                funRelay.set_state(True)
             elif state == "off":
                 logger.info("Turning fan OFF")
-                subprocess.run([FAN_CONTROL_SCRIPT, "off"], check=True)
+                funRelay.set_state(False)
 
         return jsonify({"status": "success"}), 200
     except Exception as e:
@@ -30,4 +38,7 @@ def fan_control():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
+    relay_pin = settings.RELAY_PIN
+    funRelay = Relay("FanRelay" ,relay_pin)
+
     app.run(host='0.0.0.0', port=8080)
