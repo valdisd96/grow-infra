@@ -1,6 +1,7 @@
 import logging
 import subprocess
 import settings
+import signal
 from relay import Relay
 from flask import Flask, request, jsonify
 
