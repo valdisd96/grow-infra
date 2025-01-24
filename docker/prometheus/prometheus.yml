@@ -12,3 +12,4 @@ scrape_configs:
 
 rule_files:
   - "/etc/prometheus/additional_sensor_parameters.yml"
+  - "/etc/prometheus/alert.rules.yml"
