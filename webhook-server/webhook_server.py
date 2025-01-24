@@ -39,7 +39,15 @@ def fan_control():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
-    relay_pin = settings.RELAY_PIN
-    funRelay = Relay("FanRelay" ,relay_pin)
+    try:
+        relay_pin = settings.RELAY_PIN
+        funRelay = Relay("FanRelay", relay_pin)
 
-    app.run(host='0.0.0.0', port=8080)
+        logger.info("Starting Flask server on port 8080.")
+        app.run(host='0.0.0.0', port=8080)
+    except KeyboardInterrupt:
+        logger.info("Interrupted by user.")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+    finally:
+        funRelay.cleanup()
