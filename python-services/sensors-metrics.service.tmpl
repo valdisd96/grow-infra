@@ -10,8 +10,8 @@ Restart=always
 KillMode=process
 TimeoutStopSec=10
 ExecStop=/bin/kill $MAINPID
-StandardOutput=append:/opt/grow-infra/sensor-exporter/logs/temperature-service.log
-StandardError=append:/opt/grow-infra/sensor-exporter/logs/temperature-service.log
+StandardOutput=append:/opt/grow-infra/logs/temperature-service.log
+StandardError=append:/opt/grow-infra/logs/temperature-service.log
 
 [Install]
 WantedBy=multi-user.target
