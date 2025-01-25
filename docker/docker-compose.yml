@@ -24,7 +24,7 @@ services:
     container_name: alertmanager
     volumes:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
-    command: --log.level=debug
+    command: --config.file=/etc/alertmanager/alertmanager.yml --log.level=debug
     networks:
       - monitoring
     restart: unless-stopped
