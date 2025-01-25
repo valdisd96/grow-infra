@@ -1,5 +1,5 @@
 groups:
-  - name: example-alerts
+  - name: system-alerts
     rules:
       - alert: HighCPUUsage
         expr: node_cpu_seconds_total{mode="idle"} < 20
@@ -9,3 +9,16 @@ groups:
         annotations:
           summary: "High CPU usage detected"
           description: "CPU usage is above 80% for the last 2 minutes."
+  - name: fan_alerts
+    rules:
+      - alert: HighTemperature
+        expr: avg_over_time(avg_temperature_sensors[5m]) > 20
+        for: 1m
+        labels:
+          severity: critical
+          equipment: fun
+          state: on
+        annotations:
+          summary: "The temperature so high!"
+          description: "The avg temperature for the last 5 minutes more than 23 degres"
+

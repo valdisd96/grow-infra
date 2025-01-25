@@ -11,7 +11,20 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/additional_sensor_parameters.yml:/etc/prometheus/additional_sensor_parameters.yml
+      - ./prometheus/alert.rules.yml:/etc/prometheus/alert.rules.yml
       - ./prometheus/data:/prometheus
+    networks:
+      - monitoring
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command: --config.file=/etc/alertmanager/alertmanager.yml --log.level=debug
     networks:
       - monitoring
     restart: unless-stopped

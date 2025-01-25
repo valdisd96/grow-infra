@@ -1,0 +1,17 @@
+[Unit]
+Description=Control webhook service
+After=network.target
+
+[Service]
+User=valdisd
+ExecStart=/opt/grow-infra/webhook-server/venv/bin/python /opt/grow-infra/webhook-server/webhook_server.py
+WorkingDirectory=/opt/grow-infra/webhook-server/
+Restart=always
+KillMode=process
+TimeoutStopSec=10
+ExecStop=/bin/kill $MAINPID
+StandardOutput=append:/opt/grow-infra/logs/webhook-service.log
+StandardError=append:/opt/grow-infra/logs/webhook-service.log
+
+[Install]
+WantedBy=multi-user.target
