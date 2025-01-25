@@ -11,6 +11,7 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/additional_sensor_parameters.yml:/etc/prometheus/additional_sensor_parameters.yml
+      - ./prometheus/alert.rules.yml:/etc/prometheus/alert.rules.yml
       - ./prometheus/data:/prometheus
     networks:
       - monitoring
