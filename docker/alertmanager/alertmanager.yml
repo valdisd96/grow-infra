@@ -15,5 +15,5 @@ route:
 receivers:
   - name: 'fan-control'
     webhook_configs:
-      - url: 'http://localhost:8080/fan-control'
+      - url: 'http://host.docker.internal:8080/fan-control'
         send_resolved: true
