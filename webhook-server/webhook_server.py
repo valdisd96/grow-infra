@@ -25,11 +25,11 @@ def fan_control():
         logger.info(f"Received alert: {data}")
 
         for alert in data.get("alerts", []):
-            state = alert["labels"].get("state")
-            if state == "on":
+            state = alert["status"]
+            if state == "firing":
                 logger.info("Turning fan ON")
                 funRelay.set_state(True)
-            elif state == "of":
+            elif state == "resolved":
                 logger.info("Turning fan OFF")
                 funRelay.set_state(False)
 
