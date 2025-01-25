@@ -12,7 +12,7 @@ groups:
   - name: fan_alerts
     rules:
       - alert: HighTemperature
-        expr: avg_over_time(avg_temperature_sensors[5m]) > 23
+        expr: avg_over_time(avg_temperature_sensors[5m]) > 21
         for: 1m
         labels:
           severity: critical
