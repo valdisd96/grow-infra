@@ -29,7 +29,7 @@ def fan_control():
             if state == "on":
                 logger.info("Turning fan ON")
                 funRelay.set_state(True)
-            elif state == "off":
+            elif state == "of":
                 logger.info("Turning fan OFF")
                 funRelay.set_state(False)
 
