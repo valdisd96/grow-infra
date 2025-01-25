@@ -7,4 +7,4 @@ route:
 receivers:
   - name: 'webhook-receiver'
     webhook_configs:
-      - url: 'http://host.docker.internal:5000/fan'
+      - url: 'http://host.docker.internal:8080/fan-control'

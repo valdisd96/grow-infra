@@ -16,6 +16,7 @@ groups:
         for: 1m
         labels:
           severity: critical
+          state: on
         annotations:
           summary: "The temperature so high!"
           description: "The avg temperature for the last 5 minutes more than 23 degres"
