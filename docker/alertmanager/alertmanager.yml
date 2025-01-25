@@ -5,7 +5,7 @@ route:
   receiver: 'fan-control'
   group_by: ['alertname']
   group_wait: 10s
-  group_interval: 1m
+  group_interval: 10s
   repeat_interval: 1h
   routes:
     - match:
