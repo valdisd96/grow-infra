@@ -16,6 +16,7 @@ groups:
         for: 1m
         labels:
           severity: critical
+          equipment: fun
           state: on
         annotations:
           summary: "The temperature so high!"
