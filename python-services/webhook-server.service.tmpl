@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=valdisd
-ExecStart=/opt/grow-infra/webhook-server/venv/bin/python /opt/grow-infra/sensor-exporter/webhook_server.py
+ExecStart=/opt/grow-infra/webhook-server/venv/bin/python /opt/grow-infra/webhook-server/webhook_server.py
 WorkingDirectory=/opt/grow-infra/webhook-server/
 Restart=always
 KillMode=process
