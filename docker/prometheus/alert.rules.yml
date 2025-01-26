@@ -9,6 +9,17 @@ groups:
         annotations:
           summary: "High CPU usage detected"
           description: "CPU usage is above 80% for the last 2 minutes."
+  - name: equipment_alerts
+    rules:
+      - alert: SensorFailure
+        expr: absent(temperature_Sensor1) or absent(temperature_Sensor2)
+        for: 2m
+        labels:
+          severity: critical
+          equipment: temperature-sensors
+        annotations:
+          summary: "Sensor data missing"
+          description: "Temperature sensor is not reporting data."
   - name: fan_alerts
     rules:
       - alert: HighTemperature
@@ -17,7 +28,6 @@ groups:
         labels:
           severity: critical
           equipment: fun
-          state: on
         annotations:
           summary: "The temperature so high!"
           description: "The avg temperature for the last 5 minutes more than 23 degres"
