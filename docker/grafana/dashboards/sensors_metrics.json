@@ -19,7 +19,6 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 2,
-  "refresh": "30s",
   "links": [],
   "panels": [
     {
@@ -79,6 +78,7 @@
         "sizing": "auto",
         "text": {}
       },
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "disableTextWrap": false,
@@ -155,6 +155,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "disableTextWrap": false,
@@ -279,6 +280,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -287,7 +289,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "temperature_Sensor1",
+          "expr": "temperature_inside{sensor=\"Sensor1\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "interval": "",
@@ -303,7 +305,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "temperature_Sensor2",
+          "expr": "temperature_inside{sensor=\"Sensor2\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -424,11 +426,12 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "humidity_Sensor1",
+          "expr": "humidity_inside{sensor=\"Sensor1\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "Sensor 1",
@@ -443,7 +446,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "humidity_Sensor2",
+          "expr": "humidity_inside{sensor=\"Sensor2\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -459,26 +462,23 @@
     }
   ],
   "preload": false,
+  "refresh": "30s",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
-        "name": "datasource",
-        "type": "datasource",
         "label": "Datasource",
-        "hide": 0,
-        "datasource": {
-          "type": "prometheus"
-        },
-        "default": "PBFA97CFB590B2093",
+        "name": "datasource",
         "options": [
           {
+            "selected": true,
             "text": "Prometheus",
-            "value": "Prometheus",
-            "selected": true
+            "value": "Prometheus"
           }
-        ]
+        ],
+        "refresh": 1,
+        "type": "datasource"
       }
     ]
   },
@@ -490,6 +490,6 @@
   "timezone": "browser",
   "title": "Sensors metrics",
   "uid": "eeaso2vl519moe",
-  "version": 11,
+  "version": 21,
   "weekStart": ""
 }
