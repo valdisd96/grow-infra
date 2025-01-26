@@ -6,6 +6,7 @@ class MetricsExporter:
             "temperature_inside",
             "Temperature metrics from all sensors",
             ["sensor"]
+        )
         self.humidity_metric = Gauge(
             "humidity_inside",
             "Humidity metrics from all sensors",
