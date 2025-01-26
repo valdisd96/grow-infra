@@ -2,10 +2,10 @@ groups:
   - name: average_humidity_rules
     rules:
       - record: avg_humidity_sensors
-        expr: avg(humidity_Sensor1, humidity_Sensor2)
+        expr: avg(humidity_inside)
         labels:
           job: "sensor_aggregation"
       - record: avg_temperature_sensors
-        expr: avg(temperature_Sensor1, temperature_Sensor2)
+        expr: avg(temperature_inside)
         labels:
           job: "sensor_aggregation"
