@@ -20,7 +20,7 @@ groups:
           purpose: sensors-check
         annotations:
           summary: "Sensor data missing"
-          description: "Temperature sensor {{ $labels.sensor }} is not reporting data."
+          description: "Temperature sensor is not reporting data."
 Результат:
   - name: fan_alerts
     rules:
