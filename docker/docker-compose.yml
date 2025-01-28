@@ -13,6 +13,7 @@ services:
       - ./prometheus/additional_sensor_parameters.yml:/etc/prometheus/additional_sensor_parameters.yml
       - ./prometheus/alert.rules.yml:/etc/prometheus/alert.rules.yml
       - ./prometheus/data:/prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml --log.level=debug
     networks:
       - monitoring
     restart: unless-stopped
