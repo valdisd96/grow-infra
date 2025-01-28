@@ -2,17 +2,18 @@ global:
   resolve_timeout: 5m
 
 route:
-  receiver: 'fan-control'
+  receiver: 'null_receiver'
   group_by: ['alertname']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 1h
   routes:
     - match:
-        equipment: fun
+        purpose: fun-control
       receiver: 'fan-control'
 
 receivers:
+  - name: "null_receiver"
   - name: 'fan-control'
     webhook_configs:
       - url: 'http://host.docker.internal:8080/fan-control'

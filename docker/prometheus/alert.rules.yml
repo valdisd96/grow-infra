@@ -23,12 +23,13 @@ groups:
   - name: fan_alerts
     rules:
       - alert: HighTemperature
-        expr: avg_over_time(avg_temperature_sensors[5m]) > 20
-        for: 1m
+        expr: avg_temperature_sensors > 20
+        for: 0s
         labels:
           severity: critical
           equipment: fun
+          purpose: fun-control
         annotations:
           summary: "The temperature so high!"
-          description: "The avg temperature for the last 5 minutes more than 23 degres"
+          description: "The avg temperature for the last 5 minutes more than 20 degres"
 
