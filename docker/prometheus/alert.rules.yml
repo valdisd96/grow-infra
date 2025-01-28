@@ -12,18 +12,20 @@ groups:
   - name: equipment_alerts
     rules:
       - alert: SensorFailure
-        expr: absent(temperature_Sensor1) or absent(temperature_Sensor2)
+        expr: absent(temperature_inside) by (sensor)
         for: 2m
         labels:
           severity: critical
           equipment: temperature-sensors
+          purpose: sensors-check
         annotations:
           summary: "Sensor data missing"
-          description: "Temperature sensor is not reporting data."
+          description: "Temperature sensor {{ $labels.sensor }} is not reporting data."
+Результат:
   - name: fan_alerts
     rules:
       - alert: HighTemperature
-        expr: avg_temperature_sensors > 20
+        expr: avg_temperature_sensors > 28
         for: 0s
         labels:
           severity: critical
@@ -31,5 +33,5 @@ groups:
           purpose: fun-control
         annotations:
           summary: "The temperature so high!"
-          description: "The avg temperature for the last 5 minutes more than 20 degres"
+          description: "The avg temperature for the last 5 minutes more than 28 degres"
 
