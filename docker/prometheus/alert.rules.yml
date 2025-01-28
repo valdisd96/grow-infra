@@ -12,8 +12,8 @@ groups:
   - name: equipment_alerts
     rules:
       - alert: SensorFailure
-        expr: absent(temperature_inside) by (sensor)
-        for: 2m
+        expr: absent(temperature_inside{sensor="Sensor1"}) or absent(temperature_inside{sensor="Sensor2"})
+        for: 5m
         labels:
           severity: critical
           equipment: temperature-sensors
