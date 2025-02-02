@@ -13,6 +13,7 @@ logger = logging.getLogger("WebhookServer")
 def signal_handler(sig, frame):
     logger.info("Signal received: %s", sig)
     funRelay.cleanup()
+    lightRelay.cleanup()
     sys.exit(0)
 
 signal.signal(signal.SIGTERM, signal_handler)
@@ -74,3 +75,4 @@ if __name__ == '__main__':
         logger.error(f"Unexpected error: {e}")
     finally:
         funRelay.cleanup()
+        lightRelay.cleanup()
