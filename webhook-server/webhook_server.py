@@ -13,6 +13,7 @@ logger = logging.getLogger("WebhookServer")
 def signal_handler(sig, frame):
     logger.info("Signal received: %s", sig)
     funRelay.cleanup()
+    lightRelay.cleanup()
     sys.exit(0)
 
 signal.signal(signal.SIGTERM, signal_handler)
@@ -22,7 +23,7 @@ signal.signal(signal.SIGINT, signal_handler)
 def fan_control():
     try:
         data = request.json
-        logger.info(f"Received alert: {data}")
+        logger.info(f"Fan-control Received alert: {data}")
 
         for alert in data.get("alerts", []):
             state = alert["status"]
@@ -38,10 +39,33 @@ def fan_control():
         logger.error(f"Error processing alert: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@app.route('/light-control', methods=['POST'])
+def light_control():
+    try:
+        data = request.json
+        logger.info(f"Light-control Received alert: {data}")
+
+        for alert in data.get("alerts", []):
+            state = alert["status"]
+            if state == "firing":
+                logger.info("Turning fan ON")
+                lightRelay.set_state(True)
+            elif state == "resolved":
+                logger.info("Turning fan OFF")
+                lightRelay.set_state(False)
+
+        return jsonify({"status": "success"}), 200
+    except Exception as e:
+        logger.error(f"Error processing alert: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 if __name__ == '__main__':
     try:
-        relay_pin = settings.RELAY_PIN
-        funRelay = Relay("FanRelay", relay_pin)
+        light_relay_pin = settings.LIGHT_RELAY_PIN
+        fun_relay_pin = settings.FUN_RELAY_PIN
+        
+        lightRelay = Relay("lightRelay", light_relay_pin)
+        funRelay = Relay("FanRelay", fun_relay_pin)
 
         logger.info("Starting Flask server on port 8080.")
         app.run(host='0.0.0.0', port=8080)
@@ -51,3 +75,4 @@ if __name__ == '__main__':
         logger.error(f"Unexpected error: {e}")
     finally:
         funRelay.cleanup()
+        lightRelay.cleanup()
