@@ -3,3 +3,4 @@ adafruit-circuitpython-dht
 adafruit-blinka
 requests
 flask
+apscheduler
