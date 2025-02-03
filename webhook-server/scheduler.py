@@ -28,6 +28,7 @@ class DeviceScheduler:
                     device_info["relay"].set_state(True)
                     logging.info(f"{device_info['relay'].name}: Staste ON")
                 else:
+                    print("beatch")
                     device_info["relay"].set_state(False)
                     logging.info(f"{device_info['relay'].name}: Staste OFF")
 
