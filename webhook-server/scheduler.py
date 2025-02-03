@@ -1,6 +1,7 @@
 import logging
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.interval import IntervalTrigger
 
 class DeviceScheduler:
     def __init__(self):
@@ -8,65 +9,105 @@ class DeviceScheduler:
         self.devices = {}
         self.scheduler.start()
 
-    def add_device(self, name, relay, on_time="06:00", off_time="00:00"):
+    def add_device(self, name, relay, on_time="06:00", off_time="00:00", repeat_interval_hours=None, on_duration_minutes=None):
         """
-        Adds a new device to the scheduler.
-        :param name: The name of the device (e.g. "light", "fan").
-        :param relay: The relay object.
-        :param on_time: The on time (default 06:00).
-        :param off_time: The off time (default 00:00).
+        Adds a device to the schedule.
+        :param name: Device name (e.g. "light", "fan").
+        :param relay: Relay object.
+        :param on_time: Turn-on time (default 06:00).
+        :param off_time: Shutdown time (default 00:00).
+        :param repeat_interval_hours: Repeat every X hours (optional).
+        :param on_duration_minutes: Turn on for Y minutes when repeating (optional).
         """
         if name in self.devices:
-            logging.warning(f"Device {name} already exists. Updating schedule.")
-            self.update_schedule(name, on_time, off_time)
+            logging.warning(f"Device {name} has already been added. Updating schedule.")
+            self.update_schedule(name, on_time, off_time, repeat_interval_hours, on_duration_minutes)
             return
 
-        self.devices[name] = {"relay": relay, "on_time": on_time, "off_time": off_time}
+        self.devices[name] = {
+            "relay": relay,
+            "on_time": on_time,
+            "off_time": off_time,
+            "repeat_interval_hours": repeat_interval_hours,
+            "on_duration_minutes": on_duration_minutes,
+        }
         self._setup_jobs(name)
 
     def _setup_jobs(self, name):
-        """Creates tasks for the specified device."""
+        """Creates scheduled tasks for the device."""
         if name not in self.devices:
             logging.error(f"Device {name} not found!")
             return
 
-        self.scheduler.remove_all_jobs(jobstore=name)
         device = self.devices[name]
 
-        self.scheduler.add_job(
-            self.turn_on_device, CronTrigger.from_crontab(f"{device['on_time']} * * *"),
-            args=[name], id=f"{name}_on", replace_existing=True, jobstore=name
-        )
-        self.scheduler.add_job(
-            self.turn_off_device, CronTrigger.from_crontab(f"{device['off_time']} * * *"),
-            args=[name], id=f"{name}_off", replace_existing=True, jobstore=name
-        )
+        self.scheduler.remove_all_jobs(jobstore=name)
+
+        if device["repeat_interval_hours"] and device["on_duration_minutes"]:
+            self.add_recurring_job(name, device["repeat_interval_hours"], device["on_duration_minutes"])
+        else:
+            self.scheduler.add_job(
+                self.turn_on_device,
+                CronTrigger(hour=int(device["on_time"].split(":")[0]), minute=int(device["on_time"].split(":")[1])),
+                args=[name],
+                id=f"{name}_on",
+                replace_existing=True
+            )
+            self.scheduler.add_job(
+                self.turn_off_device,
+                CronTrigger(hour=int(device["off_time"].split(":")[0]), minute=int(device["off_time"].split(":")[1])),
+                args=[name],
+                id=f"{name}_off",
+                replace_existing=True
+            )
 
         logging.info(f"Scheduled {name}: ON at {device['on_time']}, OFF at {device['off_time']}")
 
+    def add_recurring_job(self, name, repeat_interval_hours, on_duration_minutes):
+        """Adds a repeating task to run for X minutes every Y hours."""
+        self.scheduler.add_job(
+            self.turn_on_device,
+            IntervalTrigger(hours=repeat_interval_hours),
+            args=[name],
+            id=f"{name}_recurring_on",
+            replace_existing=True
+        )
+
+        self.scheduler.add_job(
+            self.turn_off_device,
+            IntervalTrigger(hours=repeat_interval_hours, minutes=on_duration_minutes),
+            args=[name],
+            id=f"{name}_recurring_off",
+            replace_existing=True
+        )
+
+        logging.info(f"Device {name} will turn on for {on_duration_minutes} minutes every {repeat_interval_hours} hours.")
+
     def turn_on_device(self, name):
-        """Turns on the device according to a schedule."""
+        """Turns on the device."""
         if name in self.devices:
-            logging.info(f"Turning {name} ON")
+            logging.info(f"Turn on {name}")
             self.devices[name]["relay"].set_state(True)
 
     def turn_off_device(self, name):
-        """Turns off the device according to a schedule."""
+        """Turns off the device."""
         if name in self.devices:
-            logging.info(f"Turning {name} OFF")
+            logging.info(f"Turn off {name}")
             self.devices[name]["relay"].set_state(False)
 
-    def update_schedule(self, name, on_time, off_time):
-        """Updates the schedule for the specified device."""
+    def update_schedule(self, name, on_time, off_time, repeat_interval_hours=None, on_duration_minutes=None):
+        """Updates the device schedule."""
         if name not in self.devices:
             logging.error(f"Device {name} not found!")
             return
 
         self.devices[name]["on_time"] = on_time
         self.devices[name]["off_time"] = off_time
+        self.devices[name]["repeat_interval_hours"] = repeat_interval_hours
+        self.devices[name]["on_duration_minutes"] = on_duration_minutes
         self._setup_jobs(name)
-        logging.info(f"Updated schedule for {name}: ON at {on_time}, OFF at {off_time}")
+        logging.info(f"Updated schedule {name}: ON at {on_time}, OFF at {off_time}")
 
     def shutdown(self):
-        """Stops the scheduler when it terminates."""
+        """Stops the scheduler."""
         self.scheduler.shutdown()

@@ -13,8 +13,7 @@ logger = logging.getLogger("WebhookServer")
 
 def signal_handler(sig, frame):
     logger.info("Signal received: %s", sig)
-    funScheduler.shutdown()
-    lightScheduler.shutdown()
+    deviceScheduler.shutdown()
     funRelay.cleanup()
     lightRelay.cleanup()
     sys.exit(0)
@@ -29,7 +28,9 @@ def set_schedule():
     {
         "name": "light",
         "on_time": "07:00",
-        "off_time": "01:00"
+        "off_time": "01:00",
+        "repeat_interval_hours": 2,
+        "on_duration_minutes": 5
     }
     """
     try:
@@ -37,6 +38,8 @@ def set_schedule():
         name = data.get("name")
         on_time = data.get("on_time")
         off_time = data.get("off_time")
+        repeat_interval_hours = data.get("repeat_interval_hours")
+        on_duration_minutes = data.get("on_duration_minutes")
 
         if not name or not on_time or not off_time:
             return jsonify({"status": "error", "message": "Missing required fields"}), 400
@@ -44,7 +47,7 @@ def set_schedule():
         if name not in device_scheduler.devices:
             return jsonify({"status": "error", "message": f"Device {name} not found"}), 404
 
-        device_scheduler.update_schedule(name, on_time, off_time)
+        device_scheduler.update_schedule(name, on_time, off_time, repeat_interval_hours, on_duration_minutes)
         return jsonify({"status": "success", "name": name, "on_time": on_time, "off_time": off_time}), 200
     except Exception as e:
         logger.error(f"Error updating schedule: {e}")
@@ -101,7 +104,7 @@ if __name__ == '__main__':
 
         deviceScheduler = DeviceScheduler()
         deviceScheduler.add_device("light", lightRelay)
-        deviceScheduler.add_device("fan", fanRelay)
+        deviceScheduler.add_device("fan", funRelay, repeat_interval_hours=1, on_duration_minutes=10)
 
         logger.info("Starting Flask server on port 8080.")
         app.run(host='0.0.0.0', port=8080)
