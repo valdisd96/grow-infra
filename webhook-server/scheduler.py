@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
@@ -8,6 +9,20 @@ class DeviceScheduler:
         self.scheduler = BackgroundScheduler()
         self.devices = {}
         self.scheduler.start()
+
+    def check_initial_state(self):
+    """checks whether the device should be turned on when the program starts"""
+    now = datetime.now().time()
+    for device_name, device_info in self.devices.items():
+        if "schedule" in device_info:
+            schedule = device_info["schedule"]
+            on_time = schedule["on_time"]
+            off_time = schedule["off_time"]
+
+            if on_time <= now <= off_time:
+                device_info["relay"].set_state(True)
+            else:
+                device_info["relay"].set_state(False)
 
     def add_device(self, name, relay, on_time="06:00", off_time="00:00", repeat_interval_hours=None, on_duration_minutes=None):
         """
