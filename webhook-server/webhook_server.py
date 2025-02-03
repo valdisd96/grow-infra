@@ -48,7 +48,7 @@ def set_schedule():
             return jsonify({"status": "error", "message": f"Device {name} not found"}), 404
 
         deviceScheduler.update_schedule(name, on_time, off_time, repeat_interval_hours, on_duration_minutes)
-        return jsonify({"status": "success", "name": name, "on_time": on_time, "off_time": off_time}), 200
+        return jsonify({"status": "success", "name": name}), 200
     except Exception as e:
         logger.error(f"Error updating schedule: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
