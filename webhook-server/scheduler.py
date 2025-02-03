@@ -29,7 +29,7 @@ class DeviceScheduler:
                     logging.info(f"{device_info['relay'].name}: Staste ON")
                 else:
                     print("beatch")
-                    device_info["relay"].set_state(False)
+                    device_info["relay"].set_state(True)
                     logging.info(f"{device_info['relay'].name}: Staste OFF")
 
     def add_device(self, name, relay, on_time=None, off_time=None, repeat_interval_hours=None, on_duration_minutes=None):
