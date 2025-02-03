@@ -41,8 +41,8 @@ def set_schedule():
         repeat_interval_hours = data.get("repeat_interval_hours")
         on_duration_minutes = data.get("on_duration_minutes")
 
-        if not name or not on_time or not off_time:
-            return jsonify({"status": "error", "message": "Missing required fields"}), 400
+        if not name:
+            return jsonify({"status": "error", "message": "Missing device name"}), 400
 
         if name not in deviceScheduler.devices:
             return jsonify({"status": "error", "message": f"Device {name} not found"}), 404
