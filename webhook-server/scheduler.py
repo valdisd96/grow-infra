@@ -14,8 +14,9 @@ class DeviceScheduler:
         """checks whether the device should be turned on when the program starts"""
         now = datetime.now().time()
         print(now)
-        print(self.devices)
+        print(self.devices.items())
         for device_name, device_info in self.devices.items():
+            print(device_name, device_info)
             if "schedule" in device_info:
                 schedule = device_info["schedule"]
                 on_time = schedule["on_time"]
