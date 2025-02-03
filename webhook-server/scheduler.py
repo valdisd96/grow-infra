@@ -13,15 +13,10 @@ class DeviceScheduler:
     def check_initial_state(self):
         """checks whether the device should be turned on when the program starts"""
         now = datetime.strptime(datetime.now().strftime("%H:%M"), "%H:%M").time()
-        print(now)
-        print(self.devices.items())
         for device_name, device_info in self.devices.items():
-            print(device_name, device_info)
             if device_info.get("on_time") and device_info.get("off_time"):
-                print(device_info.get("on_time"), "ON TIME!!!")
                 on_time = datetime.strptime(device_info["on_time"], "%H:%M").time()
                 off_time = datetime.strptime(device_info["off_time"], "%H:%M").time()
-                print(on_time, off_time, now)
 
                 if on_time <= off_time:
                     is_on = on_time <= now <= off_time
@@ -29,17 +24,9 @@ class DeviceScheduler:
                     is_on = now >= on_time or now < off_time
 
                 if is_on:
-                    print("fuck")
                     device_info["relay"].set_state(True)
-                    print("Start")
-                    print(f"Relay name: {device_info['relay'].name}")
-                    print(logging.root.handlers)
-                    logging.info(f"{device_info['relay'].name}: Staste ON")
-                    print("Stop")
                 else:
-                    print("beatch")
                     device_info["relay"].set_state(False)
-                    logging.info(f"{device_info['relay'].name}: Staste OFF")
 
     def add_device(self, name, relay, on_time=None, off_time=None, repeat_interval_hours=None, on_duration_minutes=None):
         """
