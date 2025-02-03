@@ -9,7 +9,6 @@ class DeviceScheduler:
         self.scheduler = BackgroundScheduler()
         self.devices = {}
         self.scheduler.start()
-        self.check_initial_state()
 
     def check_initial_state(self):
         """checks whether the device should be turned on when the program starts"""
@@ -29,13 +28,13 @@ class DeviceScheduler:
                     device_info["relay"].set_state(False)
                     logging.info(f"{device_info['relay'].name}: Staste OFF")
 
-    def add_device(self, name, relay, on_time="06:00", off_time="00:00", repeat_interval_hours=None, on_duration_minutes=None):
+    def add_device(self, name, relay, on_time=None, off_time=None, repeat_interval_hours=None, on_duration_minutes=None):
         """
         Adds a device to the schedule.
         :param name: Device name (e.g. "light", "fan").
         :param relay: Relay object.
-        :param on_time: Turn-on time (default 06:00).
-        :param off_time: Shutdown time (default 00:00).
+        :param on_time: Turn-on time.
+        :param off_time: Shutdown time.
         :param repeat_interval_hours: Repeat every X hours (optional).
         :param on_duration_minutes: Turn on for Y minutes when repeating (optional).
         """
@@ -52,6 +51,7 @@ class DeviceScheduler:
             "on_duration_minutes": on_duration_minutes,
         }
         self._setup_jobs(name)
+        self.check_initial_state()
 
     def _setup_jobs(self, name):
         """Creates scheduled tasks for the device."""
