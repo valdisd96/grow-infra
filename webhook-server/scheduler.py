@@ -115,7 +115,7 @@ class DeviceScheduler:
             logging.info(f"Turn off {name}")
             self.devices[name]["relay"].set_state(False)
 
-    def update_schedule(self, name, on_time, off_time, repeat_interval_hours=None, on_duration_minutes=None):
+    def update_schedule(self, name, on_time=None, off_time=None, repeat_interval_hours=None, on_duration_minutes=None):
         """Updates the device schedule."""
         if name not in self.devices:
             logging.error(f"Device {name} not found!")
