@@ -32,6 +32,7 @@ class DeviceScheduler:
                     print("fuck")
                     device_info["relay"].set_state(True)
                     print("Start")
+                    print(f"Relay name: {device_info['relay'].name}")
                     logging.info(f"{device_info['relay'].name}: Staste ON")
                     print("Stop")
                 else:
