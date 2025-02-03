@@ -27,6 +27,8 @@ class DeviceScheduler:
                     device_info["relay"].set_state(True)
                 else:
                     device_info["relay"].set_state(False)
+            else:
+                device_info["relay"].set_state(False)
 
     def add_device(self, name, relay, on_time=None, off_time=None, repeat_interval_hours=None, on_duration_minutes=None):
         """
