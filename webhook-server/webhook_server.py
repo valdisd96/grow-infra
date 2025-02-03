@@ -44,10 +44,10 @@ def set_schedule():
         if not name or not on_time or not off_time:
             return jsonify({"status": "error", "message": "Missing required fields"}), 400
 
-        if name not in device_scheduler.devices:
+        if name not in deviceScheduler.devices:
             return jsonify({"status": "error", "message": f"Device {name} not found"}), 404
 
-        device_scheduler.update_schedule(name, on_time, off_time, repeat_interval_hours, on_duration_minutes)
+        deviceScheduler.update_schedule(name, on_time, off_time, repeat_interval_hours, on_duration_minutes)
         return jsonify({"status": "success", "name": name, "on_time": on_time, "off_time": off_time}), 200
     except Exception as e:
         logger.error(f"Error updating schedule: {e}")
