@@ -17,8 +17,8 @@ class DeviceScheduler:
         print(self.devices.items())
         for device_name, device_info in self.devices.items():
             print(device_name, device_info)
-            if "schedule" in device_info:
-                schedule = device_info["schedule"]
+            if device_info.get("on_time") and device_info.get("off_time"):
+                print(device_info.get("on_time"), "ON TIME!!!")
                 on_time = schedule["on_time"]
                 off_time = schedule["off_time"]
 
