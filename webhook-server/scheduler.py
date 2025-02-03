@@ -61,7 +61,7 @@ class DeviceScheduler:
                 replace_existing=True
             )
 
-        logging.info(f"Scheduled {name}: ON at {device['on_time']}, OFF at {device['off_time']}")
+        logging.info(f"Scheduled {name}: ON at {device['on_time']}, OFF at {device['off_time']}, repeat hours: {device['repeat_interval_hours']}, active minutes: {device['on_duration_minutes']}")
 
     def add_recurring_job(self, name, repeat_interval_hours, on_duration_minutes):
         """Adds a repeating task to run for X minutes every Y hours."""
