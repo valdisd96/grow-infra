@@ -126,6 +126,7 @@ class DeviceScheduler:
         self.devices[name]["repeat_interval_hours"] = repeat_interval_hours
         self.devices[name]["on_duration_minutes"] = on_duration_minutes
         self._setup_jobs(name)
+        self.check_initial_state()
         logging.info(f"Updated schedule {name}: ON at {on_time}, OFF at {off_time}")
 
     def shutdown(self):
