@@ -19,8 +19,8 @@ class DeviceScheduler:
             print(device_name, device_info)
             if device_info.get("on_time") and device_info.get("off_time"):
                 print(device_info.get("on_time"), "ON TIME!!!")
-                on_time = schedule["on_time"]
-                off_time = schedule["off_time"]
+                on_time = datetime.strptime(device_info["on_time"], "%H:%M").time()
+                off_time = datetime.strptime(device_info["off_time"], "%H:%M").time()
 
                 if on_time <= now <= off_time:
                     device_info["relay"].set_state(True)
