@@ -9,6 +9,7 @@ class DeviceScheduler:
         self.scheduler = BackgroundScheduler()
         self.devices = {}
         self.scheduler.start()
+        self.check_initial_state()
 
     def check_initial_state(self):
     """checks whether the device should be turned on when the program starts"""
