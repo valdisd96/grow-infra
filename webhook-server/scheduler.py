@@ -23,13 +23,20 @@ class DeviceScheduler:
                 off_time = datetime.strptime(device_info["off_time"], "%H:%M").time()
                 print(on_time, off_time, now)
 
-                if on_time <= now <= off_time:
+                if on_time <= off_time:
+                    is_on = on_time <= now <= off_time
+                else: 
+                    is_on = now >= on_time or now < off_time
+
+                if is_on:
                     print("fuck")
                     device_info["relay"].set_state(True)
+                    print("Start")
                     logging.info(f"{device_info['relay'].name}: Staste ON")
+                    print("Stop")
                 else:
                     print("beatch")
-                    device_info["relay"].set_state(True)
+                    device_info["relay"].set_state(False)
                     logging.info(f"{device_info['relay'].name}: Staste OFF")
 
     def add_device(self, name, relay, on_time=None, off_time=None, repeat_interval_hours=None, on_duration_minutes=None):
