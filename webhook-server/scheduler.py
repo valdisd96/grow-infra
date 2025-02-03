@@ -21,8 +21,10 @@ class DeviceScheduler:
                 print(device_info.get("on_time"), "ON TIME!!!")
                 on_time = datetime.strptime(device_info["on_time"], "%H:%M").time()
                 off_time = datetime.strptime(device_info["off_time"], "%H:%M").time()
+                print(on_time, off_time)
 
                 if on_time <= now <= off_time:
+                    print("fuck")
                     device_info["relay"].set_state(True)
                     logging.info(f"{device_info['relay'].name}: Staste ON")
                 else:
