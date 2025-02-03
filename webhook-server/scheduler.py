@@ -22,8 +22,10 @@ class DeviceScheduler:
 
                 if on_time <= now <= off_time:
                     device_info["relay"].set_state(True)
+                    logging.info(f"{device_info["relay"].name}: Staste ON")
                 else:
                     device_info["relay"].set_state(False)
+                    logging.info(f"{device_info["relay"].name}: Staste OFF")
 
     def add_device(self, name, relay, on_time="06:00", off_time="00:00", repeat_interval_hours=None, on_duration_minutes=None):
         """
