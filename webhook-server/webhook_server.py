@@ -103,7 +103,7 @@ if __name__ == '__main__':
         funRelay = Relay("FanRelay", fun_relay_pin)
 
         deviceScheduler = DeviceScheduler()
-        deviceScheduler.add_device("light", lightRelay, on_time="12:00", off_time="00:00")
+        deviceScheduler.add_device("light", lightRelay, on_time="09:00", off_time="18:00")
         deviceScheduler.add_device("fan", funRelay, repeat_interval_hours=1, on_duration_minutes=10)
 
         logger.info("Starting Flask server on port 8080.")
