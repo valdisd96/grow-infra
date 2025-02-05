@@ -87,23 +87,22 @@ class DeviceScheduler:
 
     def add_recurring_job(self, name, repeat_interval_hours, on_duration_minutes):
         """Adds a repeating task to run for X minutes every Y hours."""
-        self.scheduler.add_job(
-            self.turn_on_device,
-            IntervalTrigger(hours=repeat_interval_hours),
-            args=[name],
-            id=f"{name}_recurring_on",
-            replace_existing=True
-        )
 
         self.scheduler.add_job(
-            self.turn_off_device,
-            IntervalTrigger(hours=repeat_interval_hours, minutes=on_duration_minutes),
+            self.control_device,
+            IntervalTrigger(hours=repeat_interval_hours),
             args=[name],
             id=f"{name}_recurring_off",
             replace_existing=True
         )
 
         logging.info(f"Device {name} will turn on for {on_duration_minutes} minutes every {repeat_interval_hours} hours.")
+
+    def control_device(self):
+        """Turns on the device, waits for the specified duration, and turns it off."""
+        self.turn_on_device
+        time.sleep(on_duration_minutes * 60)
+        self.turn_off_device
 
     def turn_on_device(self, name):
         """Turns on the device."""
