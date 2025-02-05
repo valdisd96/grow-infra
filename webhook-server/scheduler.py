@@ -98,11 +98,19 @@ class DeviceScheduler:
 
         logging.info(f"Device {name} will turn on for {on_duration_minutes} minutes every {repeat_interval_hours} hours.")
 
-    def control_device(self):
+    def control_device(self, name):
         """Turns on the device, waits for the specified duration, and turns it off."""
-        self.turn_on_device
+        if name not in self.devices:
+            logging.error(f"Device {name} not found!")
+            return
+
+        on_duration_minutes = self.devices[name].get("on_duration_minutes", 0)
+
+        logging.info(f"Turning on {name} for {on_duration_minutes} minutes.")
+        self.turn_on_device(name)
         time.sleep(on_duration_minutes * 60)
-        self.turn_off_device
+        self.turn_off_device(name)
+        logging.info(f"Turning off {name}.")
 
     def turn_on_device(self, name):
         """Turns on the device."""
