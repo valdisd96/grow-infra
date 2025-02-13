@@ -10,8 +10,6 @@ class SoilMoistureSensor:
         self.logger = logging.getLogger(self.__class__.__name__)
         self.metrics_exporter = metrics_exporter
         self.logger.info("Soil moisture sensor initialized on %s", channel)
-        if metrics_exporter is not None:
-            self.metrics_exporter.register_sensor(self.name, "soil_moisture")
 
 
     def read(self):

@@ -20,13 +20,23 @@ class MetricsExporter:
     def set_humidity(self, sensor_name, value):
         self.humidity_metric.labels(sensor=sensor_name).set(value)
 
-    def register_sensor(self, sensor_name, metric_type="metric"):
-        metric_key = f"{metric_type}_{sensor_name}"
-        if metric_key not in self.metrics:
-            self.metrics[metric_key] = Gauge(metric_key, f"{metric_type.capitalize()} metric for {sensor_name}")
-        return self.metrics[metric_key]
+    def register_sensor(self, metric_type):
+        if metric_type not in self.metrics:
+            self.metrics[metric_type] = Gauge(
+                metric_type,
+                f"{metric_type.replace('_', ' ').capitalize()} metric from all sensors",
+                ["sensor"]
+            )
+        return self.metrics[metric_type]
+    
+    # def register_sensor(self, sensor_name, metric_type="metric"):
+    #     metric_key = f"{metric_type}_{sensor_name}"
+    #     if metric_key not in self.metrics:
+    #         self.metrics[metric_key] = Gauge(metric_key, f"{metric_type.capitalize()} metric for {sensor_name}")
+    #     return self.metrics[metric_key]
 
     def update_metric(self, sensor_name, metric_type, value):
-        metric_key = f"{metric_type}_{sensor_name}"
-        if metric_key in self.metrics:
-            self.metrics[metric_key].set(value)
+        if metric_type not in self.metrics:
+            self.register_sensor(metric_type)
+
+        self.metrics[metric_type].labels(sensor=sensor_name).set(value)
