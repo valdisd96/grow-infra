@@ -16,19 +16,19 @@ class TemperatureSensorDHT22:
             self.logger.info("%s; Temperature: %s°C, Humidity: %s%%", self.name, temperature, humidity)
 
             if temperature is not None:
-                self.metrics_exporter.set_temperature(self.name, temperature)
+                self.metrics_exporter.update_metric(self.name, "temperature_inside", temperature)
             else:
-                self.metrics_exporter.set_temperature(self.name, float('nan'))
+                self.metrics_exporter.update_metric(self.name, "temperature_inside", float('nan'))
             if humidity is not None:
-                self.metrics_exporter.set_humidity(self.name, humidity)
+                self.metrics_exporter.update_metric(self.name, "humidity_inside", humidity)
             else:
-                self.metrics_exporter.set_humidity(self.name, float('nan'))
+                self.metrics_exporter.update_metric(self.name, "humidity_inside", float('nan'))
 
             return temperature, humidity
         except RuntimeError as error:
             self.logger.warning("Error reading from sensor: %s", error)
-            self.metrics_exporter.set_temperature(self.name, float('nan'))
-            self.metrics_exporter.set_humidity(self.name, float('nan'))
+            self.metrics_exporter.update_metric(self.name, "temperature_inside", float('nan'))
+            self.metrics_exporter.update_metric(self.name, "humidity_inside", float('nan'))
             return None, None
 
     def cleanup(self):
