@@ -1,4 +1,5 @@
 prometheus_client
 adafruit-circuitpython-dht
 adafruit-blinka
+adafruit-circuitpython-ads1x15
 requests
