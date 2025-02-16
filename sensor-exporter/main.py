@@ -32,8 +32,8 @@ if __name__ == "__main__":
     sensor1_pin = getattr(board, f"D{settings.TEMPERATURE_SENSOR_1_PIN}")
     sensor2_pin = getattr(board, f"D{settings.TEMPERATURE_SENSOR_2_PIN}")
 
-    soil_sensor1 = SoilMoistureSensor("SoilSensor1", ads, ADS.P0, metrics_exporter)
-    soil_sensor2 = SoilMoistureSensor("SoilSensor2", ads, ADS.P1, metrics_exporter)
+    soil_sensor1 = SoilMoistureSensor("SoilSensor1", ads, ADS.P0, metrics_exporter, dry_value=17960, wet_value=7000)
+    soil_sensor2 = SoilMoistureSensor("SoilSensor2", ads, ADS.P1, metrics_exporter, dry_value=17800, wet_value=7100)
 
     sensor1 = TemperatureSensorDHT22("Sensor1", sensor1_pin, metrics_exporter)
     sensor2 = TemperatureSensorDHT22("Sensor2", sensor2_pin, metrics_exporter)
