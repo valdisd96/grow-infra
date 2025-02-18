@@ -9,3 +9,7 @@ groups:
         expr: avg(temperature_inside)
         labels:
           job: "sensor_aggregation"
+      - record: avg_soil_moisture
+        expr: avg(soil_moisture)
+        labels:
+          job: "sensor_aggregation"
